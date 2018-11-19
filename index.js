@@ -126,9 +126,89 @@ app.get('/', function(req, res, next) {
   app.post("/testalexa", function (req,res){
 
     console.log('Sono nel test di alexa ' + JSON.stringify(req.body));
-    res.send("sono nel test di Alexa");
+    //res.send("sono nel test di Alexa");
     
     });
+    const LaunchRequestHandler = {
+        canHandle(handlerInput) {
+          return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
+        },
+        handle(handlerInput) {
+          const speechText = 'Welcome to the Alexa Skills Kit, you can say hello!';
+      
+          return handlerInput.responseBuilder
+            .speak(speechText)
+            .reprompt(speechText)
+            .withSimpleCard('Hello World', speechText)
+            .getResponse();
+        }
+      };
+    
+      const HelloWorldIntentHandler = {
+        canHandle(handlerInput) {
+          return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'HelloWorldIntent';
+        },
+        handle(handlerInput) {
+          const speechText = 'Hello World!';
+      
+          return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('Hello World', speechText)
+            .getResponse();
+        }
+      };
+      const HelpIntentHandler = {
+        canHandle(handlerInput) {
+          return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+        },
+        handle(handlerInput) {
+          const speechText = 'You can say help !';
+      
+          return handlerInput.responseBuilder
+            .speak(speechText)
+            .reprompt(speechText)
+            .withSimpleCard('Help', speechText)
+            .getResponse();
+        }
+      };
+    
+      const CancelAndStopIntentHandler = {
+        canHandle(handlerInput) {
+          return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
+              || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+        },
+        handle(handlerInput) {
+          const speechText = 'Goodbye cancel stop!';
+      
+          return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('CancelStop', speechText)
+            .getResponse();
+        }
+      };
+    
+      const SessionEndedRequestHandler = {
+        canHandle(handlerInput) {
+          return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
+        },
+        handle(handlerInput) {
+          //any cleanup logic goes here
+          console.log('sessionEnded');
+          return handlerInput.responseBuilder.getResponse();
+        }
+      };
+    exports.handler = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+      LaunchRequestHandler,
+      HelloWorldIntentHandler,
+      HelpIntentHandler,
+      CancelAndStopIntentHandler,
+      SessionEndedRequestHandler)
+    .addErrorHandlers(ErrorHandler)
+    .lambda();
 app.listen(process.env.PORT || 3000, function() {
     console.log("App started on port 3000");
   });
