@@ -125,7 +125,8 @@ app.get('/', function(req, res, next) {
   });
   app.post("/testalexa", function (req,res){
 
-    console.log('Sono nel test di alexa ' + JSON.stringify(re.body));
+    console.log('Sono nel test di alexa ' + JSON.stringify(req.body));
+    res.send("sono nel test di Alexa");
     
     });
 app.listen(process.env.PORT || 3000, function() {
