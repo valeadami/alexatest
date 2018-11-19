@@ -123,12 +123,7 @@ app.get('/', function(req, res, next) {
     
    
   });
-  app.post("/testalexa", function (req,res){
 
-    console.log('Sono nel test di alexa ' + JSON.stringify(req.body));
-    //res.send("sono nel test di Alexa");
-    
-    });
     const LaunchRequestHandler = {
         canHandle(handlerInput) {
           return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
@@ -221,6 +216,27 @@ app.get('/', function(req, res, next) {
       SessionEndedRequestHandler)
     .addErrorHandlers(ErrorHandler)
     .lambda();
+
+    app.post("/testalexa", function (req,res){
+
+        console.log('Sono nel test di alexa ' + JSON.stringify(req.body));
+        if (req.body.request==="LaunchRequest") {
+            console.log("in launch request");
+            res.JSON({
+                "version":"1.0",
+                "response":  {
+                    "outputSpeech":{
+                        "type":"Plain-Text",
+                        "text":"Benvenuto"
+                         }
+                   
+                }
+            });
+        }
+        
+        //res.send("sono nel test di Alexa");
+        
+        });
 app.listen(process.env.PORT || 3000, function() {
     console.log("App started on port 3000");
   });
