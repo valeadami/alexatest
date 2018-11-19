@@ -2,7 +2,7 @@
   "name": "testws",
   "version": "1.0.0",
   "description": "test per ws3",
-  "main": "indextest.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
@@ -10,6 +10,7 @@
   "author": "va",
   "license": "ISC",
   "dependencies": {
+    "alexa-app": "^4.2.3",
     "ask-sdk": "^2.3.0",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
